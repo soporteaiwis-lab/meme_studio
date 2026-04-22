@@ -1,0 +1,9 @@
+{
+  "name": "MemeStudio IA Beta",
+  "description": "Una aplicación avanzada de edición de imágenes impulsada por IA. Creado por Armin Salazar de aiwis IA & TI.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": []
+}
