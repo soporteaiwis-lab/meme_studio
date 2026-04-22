@@ -162,23 +162,27 @@ export default function CanvasEditor({ mediaLayers, setMediaLayers }: CanvasEdit
   };
 
   return (
-    <div className="flex flex-col w-full h-full relative">
-      {/* Editor Controls Bar */}
-      <div className="absolute top-4 right-4 z-10 flex flex-col gap-2">
-        {selectedId !== null && (
-          <button onClick={deleteSelected} className="p-3 bg-red-500/20 text-red-500 rounded-full backdrop-blur hover:bg-red-500/40 shadow-lg border border-white/10 transition-colors">
-            <Trash2 size={20} />
+    <div className="flex w-full h-full p-5 gap-5 relative">
+      
+      {/* Fabric.js Mockup Workspace / Konva Stage */}
+      <div className="flex-1 bg-[#1c1c22] rounded-3xl border border-white/10 relative overflow-hidden flex flex-col shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" ref={containerRef}>
+        <div className="absolute inset-0 pointer-events-none opacity-30" style={{ backgroundImage: 'radial-gradient(#2a2a35 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+        
+        {/* Editor Controls Bar as Floating Actions */}
+        <div className="absolute bottom-6 right-6 z-10 flex flex-col gap-3">
+          {selectedId !== null && (
+            <button onClick={deleteSelected} className="w-12 h-12 rounded-full bg-red-600/80 flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 text-white transition-transform backdrop-blur-md">
+              <Trash2 size={24} />
+            </button>
+          )}
+          <button onClick={handleExport} className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 text-white transition-transform">
+            <Download size={24} />
           </button>
-        )}
-        <button onClick={handleExport} className="p-3 bg-surface text-gray-200 rounded-full backdrop-blur hover:bg-surface-hover shadow-lg border border-white/10 transition-colors">
-          <Download size={20} />
-        </button>
-        <button onClick={handleShare} className="p-3 bg-primary text-white rounded-full shadow-lg hover:bg-blue-600 transition-colors">
-          <Share2 size={20} />
-        </button>
-      </div>
+          <button onClick={handleShare} className="w-12 h-12 rounded-full bg-emerald-600 flex items-center justify-center shadow-lg hover:scale-105 active:scale-95 text-white transition-transform">
+            <Share2 size={24} />
+          </button>
+        </div>
 
-      <div className="flex-1 bg-black rounded-lg overflow-hidden border border-white/5 shadow-inner" ref={containerRef}>
         {stageSize.width > 0 && (
           <Stage
             width={stageSize.width}
@@ -186,6 +190,7 @@ export default function CanvasEditor({ mediaLayers, setMediaLayers }: CanvasEdit
             onMouseDown={checkDeselect}
             onTouchStart={checkDeselect}
             ref={stageRef}
+            className="z-0"
           >
             <Layer>
               {/* Background instructions if empty */}
@@ -195,7 +200,7 @@ export default function CanvasEditor({ mediaLayers, setMediaLayers }: CanvasEdit
                   x={20}
                   y={stageSize.height / 2 - 20}
                   width={stageSize.width - 40}
-                  fontSize={16}
+                  fontSize={14}
                   fill="rgba(255,255,255,0.4)"
                   align="center"
                 />
@@ -209,6 +214,7 @@ export default function CanvasEditor({ mediaLayers, setMediaLayers }: CanvasEdit
                   onChange={(newAttrs: any) => {
                     // Update bounds logic could be kept in state here if complex saving is needed
                   }}
+                  onDelete={deleteSelected}
                 />
               ))}
             </Layer>

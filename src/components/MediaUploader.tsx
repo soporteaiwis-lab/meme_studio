@@ -48,74 +48,79 @@ export default function MediaUploader({ onImageReady, className }: MediaUploader
   };
 
   return (
-    <div className={cn("flex flex-col gap-3", className)}>
+    <div className={cn("flex flex-col gap-2 h-full justify-center px-1", className)}>
       {videoFile ? (
-        <div className="relative rounded-xl overflow-hidden bg-black/50 border border-white/10 p-2 text-center">
-          <p className="text-sm text-gray-300 mb-2">Busca el momento exacto y extrae el frame (ahorra memoria)</p>
+        <div className="relative rounded-xl overflow-hidden bg-black/50 border border-white/10 p-2 text-center h-full flex flex-col">
+          <p className="text-sm text-slate-300 mb-1">Busca el momento exacto y extrae el frame (ahorra memoria)</p>
           <video
             ref={videoRef}
             src={URL.createObjectURL(videoFile)}
             controls
-            className="w-full max-h-[300px] object-contain rounded-lg bg-black"
+            className="w-full flex-1 min-h-0 object-contain rounded-lg bg-black"
           />
           <canvas ref={canvasRef} className="hidden" />
-          <div className="flex justify-center gap-4 mt-3">
+          <div className="flex justify-center gap-4 mt-2">
             <button
               onClick={() => setVideoFile(null)}
-              className="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg text-sm font-medium hover:bg-red-500/30 transition-colors"
+              className="px-4 py-1.5 bg-red-500/20 text-red-500 rounded-lg text-xs font-bold hover:bg-red-500/30 transition-colors uppercase"
             >
               Cancelar
             </button>
             <button
               onClick={attemptExtractFrame}
-              className="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm font-medium hover:bg-pink-500 transition-colors shadow-lg"
+              className="px-4 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-bold hover:bg-blue-500 transition-colors shadow-lg uppercase"
             >
               Extraer Frame
             </button>
           </div>
         </div>
       ) : (
-        <div className="flex max-w-full overflow-x-auto gap-3 pb-2 scrollbar-none snap-x snap-mandatory">
-          {/* Subir archivo genérico (Imagen) */}
-          <label className="flex-1 min-w-[100px] aspect-square flex flex-col items-center justify-center gap-2 bg-surface hover:bg-surface-hover rounded-2xl border border-white/10 cursor-pointer transition-colors snap-start focus-within:ring-2 focus-within:ring-primary">
-            <ImageIcon className="w-8 h-8 text-blue-400" />
-            <span className="text-xs font-medium text-gray-300">Galería</span>
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleImageUpload}
-              aria-label="Subir desde galería"
-            />
-          </label>
+        <>
+          <div className="flex justify-between items-center px-1">
+            <span className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Recursos y Carga</span>
+          </div>
+          <div className="flex w-full gap-2 overflow-hidden h-[70px]">
+            {/* Subir archivo genérico (Imagen) */}
+            <label className="flex-1 bg-slate-800 rounded-lg flex flex-col items-center justify-center gap-1 border border-white/5 hover:bg-slate-700 cursor-pointer transition-colors shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+              <span className="text-lg">🖼️</span>
+              <span className="text-[10px] uppercase font-bold text-slate-300">Galería</span>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+                aria-label="Subir desde galería"
+              />
+            </label>
 
-          {/* Subir video y extraer frame */}
-          <label className="flex-1 min-w-[100px] aspect-square flex flex-col items-center justify-center gap-2 bg-surface hover:bg-surface-hover rounded-2xl border border-white/10 cursor-pointer transition-colors snap-start focus-within:ring-2 focus-within:ring-primary">
-            <Video className="w-8 h-8 text-purple-400" />
-            <span className="text-xs font-medium text-gray-300 text-center px-1">Video a Foto</span>
-            <input
-              type="file"
-              accept="video/*"
-              className="hidden"
-              onChange={handleImageUpload}
-              aria-label="Extraer frame de video"
-            />
-          </label>
+            {/* Subir video y extraer frame */}
+            <label className="flex-1 bg-slate-800 rounded-lg flex flex-col items-center justify-center gap-1 border border-white/5 hover:bg-slate-700 cursor-pointer transition-colors shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+              <span className="text-lg">📼</span>
+              <span className="text-[10px] uppercase font-bold text-slate-300">Video</span>
+              <input
+                type="file"
+                accept="video/*"
+                className="hidden"
+                onChange={handleImageUpload}
+                aria-label="Extraer frame de video"
+              />
+            </label>
 
-          {/* Cámara nativa */}
-          <label className="flex-1 min-w-[100px] aspect-square flex flex-col items-center justify-center gap-2 bg-surface hover:bg-surface-hover rounded-2xl border border-white/10 cursor-pointer transition-colors snap-start focus-within:ring-2 focus-within:ring-primary">
-            <Camera className="w-8 h-8 text-pink-400" />
-            <span className="text-xs font-medium text-gray-300">Cámara</span>
-            <input
-              type="file"
-              accept="image/*"
-              capture="environment"
-              className="hidden"
-              onChange={handleImageUpload}
-              aria-label="Abrir cámara"
-            />
-          </label>
-        </div>
+            {/* Cámara nativa */}
+            <label className="flex-1 bg-slate-800 rounded-lg flex flex-col items-center justify-center gap-1 border border-white/5 hover:bg-slate-700 cursor-pointer transition-colors shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+              <span className="text-lg">📷</span>
+              <span className="text-[10px] uppercase font-bold text-slate-300">Cámara</span>
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={handleImageUpload}
+                aria-label="Abrir cámara"
+              />
+            </label>
+          </div>
+        </>
       )}
     </div>
   );

@@ -96,21 +96,30 @@ export default function Chat() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-surface/50 border border-white/10 rounded-xl overflow-hidden backdrop-blur-sm">
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div className="flex flex-col h-full bg-[rgba(15,15,20,0.8)] backdrop-blur-[10px] border-b border-white/10 p-4 gap-3 z-10 w-full">
+      <div className="flex justify-between items-center flex-none">
+        <h1 className="text-xs font-bold tracking-widest uppercase text-blue-400">AI Meme Studio PWA</h1>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 text-[10px] font-bold bg-slate-800 px-3 py-1 rounded-full border border-slate-700 text-white">
+            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> GEMINI PRO ACTIVE
+          </div>
+        </div>
+      </div>
+
+      <div className="flex-1 overflow-y-auto space-y-4 min-h-0 relative scrollbar-none">
         {messages.map((msg, idx) => (
           <div key={idx} className={cn("flex gap-3", msg.role === 'user' ? "flex-row-reverse" : "flex-row")}>
             <div className={cn(
               "w-8 h-8 rounded-full flex items-center justify-center shrink-0 shadow-md",
-              msg.role === 'assistant' ? "bg-primary text-white" : "bg-gray-700 text-gray-200"
+              msg.role === 'assistant' ? "bg-gradient-to-tr from-blue-600 to-purple-600 text-white" : "bg-slate-700 text-slate-300"
             )}>
-              {msg.role === 'assistant' ? <Bot size={18} /> : <User size={18} />}
+              {msg.role === 'assistant' ? <Bot size={16} /> : <User size={16} />}
             </div>
             <div className={cn(
               "px-4 py-2 rounded-2xl max-w-[85%] text-sm",
               msg.role === 'user' 
-                ? "bg-primary/20 text-blue-100 rounded-tr-none border border-primary/20" 
-                : "bg-black/40 text-gray-200 rounded-tl-none border border-white/5"
+                ? "bg-blue-600/20 text-blue-100 rounded-tr-none border border-blue-500/20" 
+                : "bg-black/40 text-slate-200 rounded-tl-none border border-white/5"
             )}>
               {msg.role === 'assistant' ? (
                 <div className="markdown-body prose prose-invert prose-sm max-w-none">
@@ -124,7 +133,7 @@ export default function Chat() {
         ))}
         {isLoading && (
           <div className="flex gap-3 flex-row">
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0 animate-pulse">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-purple-600 flex items-center justify-center shrink-0 animate-pulse">
               <Bot size={18} className="text-white" />
             </div>
             <div className="px-4 py-3 rounded-2xl bg-black/40 text-gray-200 rounded-tl-none border border-white/5 flex items-center gap-1">
@@ -137,32 +146,32 @@ export default function Chat() {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="p-3 bg-black/40 border-t border-white/10 flex items-center gap-2">
+      <div className="flex items-center gap-3 bg-black/40 border border-white/10 rounded-2xl p-2 shadow-inner flex-none">
         <button 
           onClick={toggleListen}
-          className={cn("p-3 rounded-full transition-colors", 
-            isListening ? "bg-red-500/20 text-red-500 animate-pulse" : "bg-surface hover:bg-surface-hover text-gray-400"
+          className={cn("w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors", 
+            isListening ? "bg-red-500/20 text-red-500 animate-pulse" : "bg-gradient-to-tr from-blue-600 to-purple-600 text-white"
           )}
         >
-          {isListening ? <MicOff size={20} /> : <Mic size={20} />}
+          {isListening ? <MicOff size={16} /> : <Mic size={16} />}
         </button>
-        <div className="flex-1 relative">
+        <div className="flex-1 relative flex items-center">
            <input 
              type="text"
              value={input}
              onChange={(e) => setInput(e.target.value)}
              onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-             placeholder="Dicta o escribe un comando..."
-             className="w-full bg-surface text-gray-200 rounded-full pl-4 pr-12 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary/50"
+             placeholder="Saca la cara de esta persona estilo Pixar..."
+             className="w-full bg-transparent text-slate-200 text-sm italic focus:outline-none placeholder:text-slate-500 px-2"
            />
-           <button 
-             onClick={sendMessage}
-             disabled={!input.trim() || isLoading}
-             className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 bg-primary rounded-full text-white disabled:opacity-50 hover:bg-blue-600 transition-colors"
-           >
-             <Send size={16} />
-           </button>
         </div>
+        <button 
+          onClick={sendMessage}
+          disabled={!input.trim() || isLoading}
+          className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center hover:bg-blue-500 shadow-lg shadow-blue-900/40 shrink-0 disabled:opacity-50 transition-colors"
+        >
+          <Send size={16} color="white" />
+        </button>
       </div>
     </div>
   );
